@@ -36,17 +36,16 @@ def scrape():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
 
-    articles = soup.find_all('div', class_='list_text')
+    article = soup.find('div', class_='list_text')
 
     article_content = []
 
-    for article in articles:
-        article_title = article.find('div', class_='content_title').text
-        print(f'Title: {article_title}')
-        teaser_text = article.find('div', class_='article_teaser_body').text
-        print(f'Text: {teaser_text}\n')
-        content = dict({'Title':article_title, 'Text':teaser_text})
-        article_content.append(content)
+    article_title = article.find('div', class_='content_title').text
+    print(f'Title: {article_title}')
+    teaser_text = article.find('div', class_='article_teaser_body').text
+    print(f'Text: {teaser_text}\n')
+    content = dict({'Title':article_title, 'Text':teaser_text})
+    article_content.append(content)
 
 
 # ### JPL Mars Space Images - Featured Image
@@ -140,12 +139,15 @@ def scrape():
         image_list.append(item_insert)
     
     mars_data = {
-        'Articles': article_content,
-        'Image': img_url,
-        'Facts': mars_facts_df,
-        'Hemispheres': image_list
+        'article': article_content,
+        'image': img_url,
+        'facts': mars_facts_df,
+        'hemispheres': image_list
     }
     
     browser.quit()
     
     return mars_data
+
+# data = scrape()
+# print(data['Article'][0]['Title'])
