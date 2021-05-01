@@ -93,7 +93,6 @@ def scrape():
 
     mars_facts = pd.read_html(url)
     mars_facts_df = mars_facts[1]
-    mars_facts_df
     mars_facts = mars_facts_df.to_html()
 
 
