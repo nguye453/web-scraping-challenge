@@ -12,14 +12,14 @@
         <a class="btn btn-md text-white" style="background-color:#2e73ce;" href="/scrape" role="button">Scrape New Data</a>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">Latest Mars News</h4>
                 </div>
                 <div class="panel-body">
-                    <h4>{{ mars_data.Title }}</h4>
-                    <p>{{ mars_data.Text }}</p>
+                    <h6>{{ mars_data.article_title }}</h6>
+                    <p>{{ mars_data.article_text }}</p>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     <h4 class="panel-title">Featured Mars Image</h4>
                 </div>
                 <div class="panel-body">
-                    <img src= {{ mars_data.image }} alt="Featured Image" class="img-responsive">
+                    <img src= {{ mars_data.image }} alt="Featured Image" class="img-responsive" style="width: 80%; height: 80%;">
                 </div>
             </div>
         </div>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="panel-body">
                     <table>
-                        {{ mars_data.facts }}
+                        {{ mars_data.facts|safe }}
                     </table>
                 </div>
             </div>
@@ -54,12 +54,21 @@
     <h4 style="padding-top: 50px; margin-top: 30px; text-align: center;">Mars Hemispheres</h4>
         <div class="card-deck">
             <div class="col-md-12">
-                <div class="row" id="mars-hemispheres">
-                    {% for hemisphere in mars_data.hemispheres %}
-                    <div class="col-md-6">
-                        <div class="card text-white" style="margin: 30px;">
+                <div class="row" id="mars-hemispheres-urls">
+                    {% for hemisphere in mars_data.hemisphere_urls %}
+                    <div class="col-md-3">
+                        <div class="card text-white" style="margin: 30px; margin-bottom: 0px;">
+                            <img class="card-img-top" src="{{ hemisphere.URL }}" />
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row" id="mars-hemispheres-titles">
+                    {% for title in mars_data.hemisphere_title %}
+                    <div class="col-sm-3">
+                        <div class="card text-black" style="margin-bottom: 30px;">
                             <div class="card-body">
-                                <p class="card-text">{{hemisphere.Title}}</p>
+                                <p class="card-text">{{ title.Title }}</p>
                             </div>
                         </div>
                     </div>
@@ -68,5 +77,4 @@
             </div>
         </div>
 </body>
-
 </html>

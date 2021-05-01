@@ -94,6 +94,7 @@ def scrape():
     mars_facts = pd.read_html(url)
     mars_facts_df = mars_facts[1]
     mars_facts_df
+    mars_facts = mars_facts_df.to_html()
 
 
 # ### Mars Hemispheres
@@ -121,7 +122,8 @@ def scrape():
 
     items = soup.find_all('div', class_='item')
 
-    image_list = []
+    image_url_list = []
+    title_list = []
 
     for item in items:
         img_title = item.find('h3').text
@@ -135,19 +137,20 @@ def scrape():
         img_url = url + soup.find('img', class_='wide-image').get('src')
         print(img_url)
 
-        item_insert = dict({'Title':img_title, 'URL':img_url})
-        image_list.append(item_insert)
-    
+        url_insert = dict({'URL':img_url})
+        image_url_list.append(url_insert)
+        title_insert = dict({'Title':img_title})
+        title_list.append(title_insert)
+
     mars_data = {
-        'article': article_content,
+        'article_title': article_content[0]['Title'],
+        'article_text': article_content[0]['Text'],
         'image': img_url,
-        'facts': mars_facts_df,
-        'hemispheres': image_list
+        'facts': mars_facts,
+        'hemisphere_urls': image_url_list,
+        'hemisphere_title': title_list
     }
     
     browser.quit()
     
     return mars_data
-
-# data = scrape()
-# print(data['Article'][0]['Title'])
